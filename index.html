@@ -138,6 +138,9 @@ textarea{resize:vertical;min-height:80px;line-height:1.55}
 .resultado-pill:hover{border-color:#6366f1;background:#eef2ff}
 .resultado-pill.sel-solucionado{background:#166534;color:white;border-color:#166534}
 .resultado-pill.sel-pendiente{background:#b45309;color:white;border-color:#b45309}
+.card-toggle{background:none;border:1.5px solid #e2e8f0;cursor:pointer;padding:4px 10px;border-radius:8px;color:#64748b;font-size:11px;font-weight:700;transition:all .15s;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;margin-left:8px}
+.card-toggle:hover{background:#f0f4f8;color:#0f2540;border-color:#0f2540}
+.card-body.collapsed{display:none}
 .areas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
 .area-item{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:9px;transition:border-color .15s}
 .area-item:focus-within{border-color:#93c5fd;background:#f0f7ff}
@@ -225,6 +228,9 @@ html { font-size: 14px; }
 .resultado-pill:hover{border-color:#6366f1;background:#eef2ff}
 .resultado-pill.sel-solucionado{background:#166534;color:white;border-color:#166534}
 .resultado-pill.sel-pendiente{background:#b45309;color:white;border-color:#b45309}
+.card-toggle{background:none;border:1.5px solid #e2e8f0;cursor:pointer;padding:4px 10px;border-radius:8px;color:#64748b;font-size:11px;font-weight:700;transition:all .15s;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;margin-left:8px}
+.card-toggle:hover{background:#f0f4f8;color:#0f2540;border-color:#0f2540}
+.card-body.collapsed{display:none}
 .areas-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
   .prof-grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 }
@@ -259,6 +265,9 @@ html { font-size: 14px; }
 .resultado-pill:hover{border-color:#6366f1;background:#eef2ff}
 .resultado-pill.sel-solucionado{background:#166534;color:white;border-color:#166534}
 .resultado-pill.sel-pendiente{background:#b45309;color:white;border-color:#b45309}
+.card-toggle{background:none;border:1.5px solid #e2e8f0;cursor:pointer;padding:4px 10px;border-radius:8px;color:#64748b;font-size:11px;font-weight:700;transition:all .15s;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;margin-left:8px}
+.card-toggle:hover{background:#f0f4f8;color:#0f2540;border-color:#0f2540}
+.card-body.collapsed{display:none}
 .areas-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:7px}
   .prof-grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
   .ambito-grid{grid-template-columns:repeat(2,1fr)}
@@ -292,6 +301,9 @@ html { font-size: 14px; }
 .resultado-pill:hover{border-color:#6366f1;background:#eef2ff}
 .resultado-pill.sel-solucionado{background:#166534;color:white;border-color:#166534}
 .resultado-pill.sel-pendiente{background:#b45309;color:white;border-color:#b45309}
+.card-toggle{background:none;border:1.5px solid #e2e8f0;cursor:pointer;padding:4px 10px;border-radius:8px;color:#64748b;font-size:11px;font-weight:700;transition:all .15s;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;margin-left:8px}
+.card-toggle:hover{background:#f0f4f8;color:#0f2540;border-color:#0f2540}
+.card-body.collapsed{display:none}
 .areas-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
   .prof-grid{grid-template-columns:1fr 1fr}
   .ambito-grid{grid-template-columns:1fr 1fr;gap:8px}
@@ -340,6 +352,9 @@ html { font-size: 14px; }
 .resultado-pill:hover{border-color:#6366f1;background:#eef2ff}
 .resultado-pill.sel-solucionado{background:#166534;color:white;border-color:#166534}
 .resultado-pill.sel-pendiente{background:#b45309;color:white;border-color:#b45309}
+.card-toggle{background:none;border:1.5px solid #e2e8f0;cursor:pointer;padding:4px 10px;border-radius:8px;color:#64748b;font-size:11px;font-weight:700;transition:all .15s;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;margin-left:8px}
+.card-toggle:hover{background:#f0f4f8;color:#0f2540;border-color:#0f2540}
+.card-body.collapsed{display:none}
 .areas-grid{grid-template-columns:1fr 1fr}
   .stats-row{grid-template-columns:1fr 1fr}
   .kpi-row{grid-template-columns:1fr}
@@ -378,9 +393,14 @@ html { font-size: 14px; }
 
 <div id="page-form" class="page active">
 
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px">
+    <button onclick="expandAll()" style="background:white;border:1.5px solid #e2e8f0;color:#374151;font-size:11px;font-weight:700;padding:5px 12px;border-radius:8px;cursor:pointer">&#9650; Expandir todo</button>
+    <button onclick="collapseAll()" style="background:white;border:1.5px solid #e2e8f0;color:#374151;font-size:11px;font-weight:700;padding:5px 12px;border-radius:8px;cursor:pointer">&#9660; Contraer todo</button>
+  </div>
+
   <div class="card">
-    <div class="card-head"><div class="icon-dot ib">&#128100;</div><div><h2>Identificaci&#243;n del Facilitador</h2><p>Datos generales de la jornada</p></div></div>
-    <div class="card-body">
+    <div class="card-head"><div class="icon-dot ib">&#128100;</div><div><h2>Identificaci&#243;n del Facilitador</h2><p>Datos generales de la jornada</p></div><button class="card-toggle" onclick="toggleCard('cb-identificacion')">&#9650; Contraer</button></div>
+    <div class="card-body" id="cb-identificacion">
       <div class="form-row">
         <div><label class="lbl">Facilitador *</label>
           <select id="facilitador">
@@ -410,8 +430,8 @@ html { font-size: 14px; }
 
 
   <div class="card">
-    <div class="card-head"><div class="icon-dot" style="background:#eef2ff">&#128203;</div><div><h2>Tipo de Actividad <span style="color:#e53e3e">*</span></h2><p>Seleccione el o los tipos de actividad realizados</p></div></div>
-    <div class="card-body">
+    <div class="card-head"><div class="icon-dot" style="background:#eef2ff">&#128203;</div><div><h2>Tipo de Actividad <span style="color:#e53e3e">*</span></h2><p>Seleccione el o los tipos de actividad realizados</p></div><button class="card-toggle" onclick="toggleCard('cb-tipo-actividad')">&#9650; Contraer</button></div>
+    <div class="card-body" id="cb-tipo-actividad">
       <div class="tipo-act-grid">
         <div class="tipo-act-item" onclick="toggleTipoAct(this,'Capacitaci&#243;n')" id="ta-Capacitacion">
           <div class="ta-icon">&#127979;</div><span class="ta-label">Capacitaci&#243;n</span>
@@ -437,8 +457,8 @@ html { font-size: 14px; }
 
 
   <div class="card">
-    <div class="card-head"><div class="icon-dot" style="background:#cffafe">&#128736;</div><div><h2>Tipo de Apoyo <span style="color:#e53e3e">*</span></h2><p>Seleccione el o los tipos de apoyo realizados</p></div></div>
-    <div class="card-body">
+    <div class="card-head"><div class="icon-dot" style="background:#cffafe">&#128736;</div><div><h2>Tipo de Apoyo <span style="color:#e53e3e">*</span></h2><p>Seleccione el o los tipos de apoyo realizados</p></div><button class="card-toggle" onclick="toggleCard('cb-tipo-apoyo')">&#9650; Contraer</button></div>
+    <div class="card-body" id="cb-tipo-apoyo">
       <div class="tipo-apoyo-grid" id="tipo-apoyo-grid">
         <div class="tipo-apoyo-item" onclick="toggleTipoApoyo(this,'Incidente')" id="tap-Incidente">
           <div class="ta-icon" style="background:#fee2e2;color:#991b1b;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">&#9888;</div>
@@ -466,8 +486,8 @@ html { font-size: 14px; }
   </div>
 
   <div class="card">
-    <div class="card-head"><div class="icon-dot it">&#127919;</div><div><h2>&#193;mbito <span style="color:#e53e3e">*</span></h2><p>Seleccione el &#225;mbito de trabajo de la jornada</p></div></div>
-    <div class="card-body">
+    <div class="card-head"><div class="icon-dot it">&#127919;</div><div><h2>&#193;mbito <span style="color:#e53e3e">*</span></h2><p>Seleccione el &#225;mbito de trabajo de la jornada</p></div><button class="card-toggle" onclick="toggleCard('cb-ambito')">&#9650; Contraer</button></div>
+    <div class="card-body" id="cb-ambito">
       <div class="ambito-grid">
         <div class="ambito-item" onclick="selAmbito(this,'Urgencia')" id="ambito-Urgencia">
           <div class="ambito-icon">&#128680;</div><span class="ambito-label">Urgencia</span>
@@ -486,8 +506,8 @@ html { font-size: 14px; }
     </div>
   </div>
   <div class="card">
-    <div class="card-head"><div class="icon-dot" style="background:#e0e7ff">&#128421;</div><div><h2>Cat&#225;logo de Herramientas y M&#243;dulos <span style="color:#e53e3e">*</span></h2><p>Seleccione las herramientas y m&#243;dulos utilizados</p></div></div>
-    <div class="card-body">
+    <div class="card-head"><div class="icon-dot" style="background:#e0e7ff">&#128421;</div><div><h2>Cat&#225;logo de Herramientas y M&#243;dulos <span style="color:#e53e3e">*</span></h2><p>Seleccione las herramientas y m&#243;dulos utilizados</p></div><button class="card-toggle" onclick="toggleCard('cb-herramientas')">&#9650; Contraer</button></div>
+    <div class="card-body" id="cb-herramientas">
       <div id="herr-container"></div>
       <div class="add-otro-box" id="add-herr-btn" onclick="showAddOtroForm('herr')">
         <span style="font-size:18px;color:#7c3aed">&#65291;</span><span>Agregar otro, especificar</span>
@@ -504,8 +524,8 @@ html { font-size: 14px; }
 
 
   <div class="card">
-    <div class="card-head"><div class="icon-dot ig">&#127973;</div><div><h2>Acompa&#241;amientos por &#193;rea <span style="color:#e53e3e">*</span></h2><p>N&#176; de acompa&#241;amientos por unidad &#8212; 0 si no aplica</p></div></div>
-    <div class="card-body">
+    <div class="card-head"><div class="icon-dot ig">&#127973;</div><div><h2>Acompa&#241;amientos por &#193;rea <span style="color:#e53e3e">*</span></h2><p>N&#176; de acompa&#241;amientos por unidad &#8212; 0 si no aplica</p></div><button class="card-toggle" onclick="toggleCard('cb-areas')">&#9650; Contraer</button></div>
+    <div class="card-body" id="cb-areas">
       <div class="info-note">&#128161; Ingrese solo las &#225;reas con acompa&#241;amientos. El total se calcula autom&#225;ticamente.</div>
       <div class="areas-grid" id="areas-grid"></div>
       <div class="areas-grid" id="custom-areas-grid" style="margin-top:8px"></div>
@@ -523,8 +543,8 @@ html { font-size: 14px; }
 
 
   <div class="card">
-    <div class="card-head"><div class="icon-dot" style="background:#dbeafe">&#128104;&#8205;&#9877;&#65039;</div><div><h2>Tipos de Profesionales <span style="color:#e53e3e">*</span></h2><p>Seleccione los tipos de profesionales acompa&#241;ados</p></div></div>
-    <div class="card-body">
+    <div class="card-head"><div class="icon-dot" style="background:#dbeafe">&#128104;&#8205;&#9877;&#65039;</div><div><h2>Tipos de Profesionales <span style="color:#e53e3e">*</span></h2><p>Seleccione los tipos de profesionales acompa&#241;ados</p></div><button class="card-toggle" onclick="toggleCard('cb-profesionales')">&#9650; Contraer</button></div>
+    <div class="card-body" id="cb-profesionales">
       <div class="prof-grid" id="prof-grid"></div>
       <div id="prof-custom-list" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px"></div>
       <div class="add-prof-box" id="add-prof-btn" onclick="showAddProfForm()">
@@ -539,8 +559,8 @@ html { font-size: 14px; }
   </div>
 
   <div class="card">
-    <div class="card-head"><div class="icon-dot ia">&#128221;</div><div><h2>Detalle de Actividades Diarias <span style="color:#e53e3e">*</span></h2></div></div>
-    <div class="card-body">
+    <div class="card-head"><div class="icon-dot ia">&#128221;</div><div><h2>Detalle de Actividades Diarias <span style="color:#e53e3e">*</span></h2></div><button class="card-toggle" onclick="toggleCard('cb-detalle')">&#9650; Contraer</button></div>
+    <div class="card-body" id="cb-detalle">
       <div class="form-full"><label class="lbl">Asistencia Solicitada por <span style="color:#e53e3e">*</span></label><input type="text" id="asistencia-por" placeholder="Nombre de la persona que solicitó la asistencia..."></div>
       <div class="form-full"><label class="lbl">Actividades / Rondas</label><textarea id="actividades" rows="3" placeholder="Rondas AM y PM. Apoyo administrativo. Registro en Acta de Acompa&#241;amiento..."></textarea></div>
       <div class="form-full"><label class="lbl">Capacitaciones realizadas</label><textarea id="capacitaciones" rows="3" placeholder="Capacitaci&#243;n a personal de UTI sobre TrakCare (09:00-11:00). 12 personas asistentes..."></textarea></div>
@@ -564,8 +584,8 @@ html { font-size: 14px; }
 
 
   <div class="card">
-    <div class="card-head"><div class="icon-dot" style="background:#fef9c3">&#10067;</div><div><h2>Seguimiento y Resolución <span style="color:#e53e3e">*</span></h2><p>Estado de la consulta y acciones derivadas</p></div></div>
-    <div class="card-body">
+    <div class="card-head"><div class="icon-dot" style="background:#fef9c3">&#10067;</div><div><h2>Seguimiento y Resolución <span style="color:#e53e3e">*</span></h2><p>Estado de la consulta y acciones derivadas</p></div><button class="card-toggle" onclick="toggleCard('cb-seguimiento')">&#9650; Contraer</button></div>
+    <div class="card-body" id="cb-seguimiento">
 
       <!-- CONSULTA RESUELTA -->
       <div class="sect-title">&#9989; La consulta del usuario quedó resuelta</div>
@@ -970,6 +990,16 @@ const HERRAMIENTAS = {"NovaHub": ["OIRS", "Orientación al usuario y Gestión So
 
 var DB = [], editId = null;
 var customAreas = [];
+function toggleCard(id){
+  var b=document.getElementById(id);
+  var btn=b?b.parentElement.querySelector('.card-toggle'):null;
+  if(!b)return;
+  if(b.classList.contains('collapsed')){b.classList.remove('collapsed');if(btn)btn.innerHTML='&#9650; Contraer';}
+  else{b.classList.add('collapsed');if(btn)btn.innerHTML='&#9660; Expandir';}
+}
+function expandAll(){document.querySelectorAll('.card-body').forEach(function(b){b.classList.remove('collapsed');});document.querySelectorAll('.card-toggle').forEach(function(b){b.innerHTML='&#9650; Contraer';});}
+function collapseAll(){document.querySelectorAll('.card-body').forEach(function(b){b.classList.add('collapsed');});document.querySelectorAll('.card-toggle').forEach(function(b){b.innerHTML='&#9660; Expandir';});}
+
 
 // â”€â”€ Tipo de Apoyo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var selectedTipoApoyo = [];
