@@ -361,12 +361,12 @@ html { font-size: 14px; }
   <button onclick="syncFromCloud()" id="sync-btn" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;padding:5px 12px;border-radius:10px;cursor:pointer;font-weight:600">&#9729; Sincronizar</button>
   <div id="admin-alert" style="display:none;position:fixed;top:0;left:0;right:0;background:#991b1b;color:white;padding:10px 20px;font-size:13px;font-weight:700;z-index:9999;text-align:center"></div>
   <div style="display:flex;align-items:center;gap:6px;margin-left:auto">
-    <span id="status-onprem" style="font-size:10px;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.1);color:white" title="BD On-premises">⏳ On-prem</span>
-    <span id="status-backup" style="font-size:10px;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.1);color:white" title="BD Respaldo">⏳ Respaldo</span>
+    <span id="status-onprem" style="font-size:10px;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.1);color:white">⏳ On-prem</span>
+    <span id="status-backup" style="font-size:10px;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.1);color:white">⏳ Respaldo</span>
     <span id="queue-badge" style="display:none;font-size:10px;padding:3px 8px;border-radius:8px;font-weight:700"></span>
     <div id="sync-status" style="font-size:11px;opacity:.8"></div>
     <button onclick="reconcileDBs()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;font-weight:600">🔄 Reconciliar</button>
-    <button onclick="syncFromCloud()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;font-weight:600">☁️ Sincronizar</button>
+    <button onclick="syncFromCloud()" id="sync-btn" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;font-weight:600">☁️ Sincronizar</button>
   </div>
   <div id="db-badge" style="font-size:11px;background:rgba(255,255,255,.12);padding:4px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.2);white-space:nowrap">&#128190; Cargando...</div>
 </div>
@@ -803,242 +803,91 @@ const STORAGE_KEY = 'hah_reportes_v3';
 
 const SUPABASE_URL = 'http://10.12.0.54:8000';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImF1ZCI6ImF1dGhlbnRpY2F0ZWQiLCJpYXQiOjE3ODE4MTQ3MTIsImV4cCI6MjA5NzM5MDcxMiwiaXNzIjoiaHR0cDovLzEwLjEyLjAuNTQ6ODAwMC9hdXRoL3YxIn0.0C9ui528YwE-u-Gd00WtkT36_2VFnKmTrjrWvlIhbXU';
-
-// ── Base de datos de respaldo (Supabase) ──────────────────────────────────────
 const BACKUP_URL = 'https://rlquutndggexhxdkijas.supabase.co';
 const BACKUP_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscXV1dG5kZ2dleGh4ZGtpamFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMzM4MzMsImV4cCI6MjA5NjcwOTgzM30.LoMBvZfk8oyy0an8GCeejo8wRz2lxTQr2uQmpWULtNw';
-
-// ── Cola de reintentos persistente ────────────────────────────────────────────
 const QUEUE_KEY = 'hah_sync_queue';
 const MAX_RETRIES = 3;
-const RETRY_INTERVALS = [2 * 60 * 1000, 5 * 60 * 1000, 15 * 60 * 1000]; // 2, 5, 15 min
+const RETRY_INTERVALS = [120000, 300000, 900000];
+var syncQueue = [], retryTimer = null, failCount = {onprem:0,backup:0}, adminAlertSent = false;
 
-var syncQueue = [];
-var retryTimer = null;
-var failCount = {onprem: 0, backup: 0};
-var adminAlertSent = false;
-
-// ── Cargar cola desde localStorage ───────────────────────────────────────────
 function loadQueue() {
-  try { var q = localStorage.getItem(QUEUE_KEY); syncQueue = q ? JSON.parse(q) : []; } 
-  catch(e) { syncQueue = []; }
+  try { var q=localStorage.getItem(QUEUE_KEY); syncQueue=q?JSON.parse(q):[]; } catch(e) { syncQueue=[]; }
   updateQueueBadge();
 }
 function saveQueue() {
-  try { localStorage.setItem(QUEUE_KEY, JSON.stringify(syncQueue)); } catch(e) {}
+  try { localStorage.setItem(QUEUE_KEY,JSON.stringify(syncQueue)); } catch(e) {}
   updateQueueBadge();
 }
 function updateQueueBadge() {
-  var badge = document.getElementById('queue-badge');
-  if (!badge) return;
-  if (syncQueue.length > 0) {
-    badge.textContent = '⚠️ ' + syncQueue.length + ' pendiente' + (syncQueue.length > 1 ? 's' : '');
-    badge.style.display = 'inline-block';
-    badge.style.background = '#991b1b';
-    badge.style.color = 'white';
-  } else {
-    badge.style.display = 'none';
-  }
+  var b=document.getElementById('queue-badge'); if(!b) return;
+  if(syncQueue.length>0) { b.textContent='\u26a0\ufe0f '+syncQueue.length+' pendiente'+(syncQueue.length>1?'s':''); b.style.display='inline-block'; b.style.background='#991b1b'; b.style.color='white'; }
+  else b.style.display='none';
 }
-
-// ── Guardar en una BD específica ─────────────────────────────────────────────
 async function saveToDb(record, url, key) {
-  var resp = await fetch(url + '/rest/v1/reportes?on_conflict=id', {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'apikey': key,
-      'Authorization': 'Bearer ' + key,
-      'Content-Type': 'application/json',
-      'Prefer': 'resolution=merge-duplicates'
-    },
-    body: JSON.stringify(record)
-  });
-  if (!resp.ok) throw new Error('HTTP ' + resp.status);
+  var resp=await fetch(url+'/rest/v1/reportes?on_conflict=id',{method:'POST',mode:'cors',headers:{'apikey':key,'Authorization':'Bearer '+key,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},body:JSON.stringify(record)});
+  if(!resp.ok) throw new Error('HTTP '+resp.status);
   return true;
 }
-
-// ── Doble escritura con cola y reintentos ─────────────────────────────────────
 async function dbSave(record) {
-  var dbRecord = recordToDb(record);
-  var onpremOk = false, backupOk = false;
-  var errors = [];
-
-  // Capa 1: Guardar en BD principal (on-premises)
-  try {
-    await saveToDb(dbRecord, SUPABASE_URL, SUPABASE_KEY);
-    onpremOk = true;
-    failCount.onprem = 0;
-    updateStatus('onprem', 'ok');
-  } catch(e) {
-    errors.push('On-premises: ' + e.message);
-    failCount.onprem++;
-    updateStatus('onprem', 'error');
-    console.error('On-premises save error:', e);
+  var dbRecord=recordToDb(record), onpremOk=false, backupOk=false, errors=[];
+  try { await saveToDb(dbRecord,SUPABASE_URL,SUPABASE_KEY); onpremOk=true; failCount.onprem=0; updateStatus('onprem','ok'); }
+  catch(e) { errors.push('On-premises: '+e.message); failCount.onprem++; updateStatus('onprem','error'); }
+  try { await saveToDb(dbRecord,BACKUP_URL,BACKUP_KEY); backupOk=true; failCount.backup=0; updateStatus('backup','ok'); }
+  catch(e) { errors.push('Respaldo: '+e.message); failCount.backup++; updateStatus('backup','error'); }
+  if(!onpremOk||!backupOk) {
+    syncQueue.push({record:dbRecord,timestamp:new Date().toISOString(),retries:0,failedDbs:(!onpremOk?['onprem']:[]).concat(!backupOk?['backup']:[]),nextRetry:Date.now()+RETRY_INTERVALS[0]});
+    saveQueue(); scheduleRetry();
+    if(failCount.onprem>=MAX_RETRIES||failCount.backup>=MAX_RETRIES) sendAdminAlert(errors);
   }
-
-  // Capa 2: Guardar en BD respaldo (Supabase)
-  try {
-    await saveToDb(dbRecord, BACKUP_URL, BACKUP_KEY);
-    backupOk = true;
-    failCount.backup = 0;
-    updateStatus('backup', 'ok');
-  } catch(e) {
-    errors.push('Supabase respaldo: ' + e.message);
-    failCount.backup++;
-    updateStatus('backup', 'error');
-    console.error('Backup save error:', e);
-  }
-
-  // Capa 3: Si alguna BD falló, agregar a la cola
-  if (!onpremOk || !backupOk) {
-    var queueItem = {
-      record: dbRecord,
-      timestamp: new Date().toISOString(),
-      retries: 0,
-      failedDbs: (!onpremOk ? ['onprem'] : []).concat(!backupOk ? ['backup'] : []),
-      nextRetry: Date.now() + RETRY_INTERVALS[0]
-    };
-    syncQueue.push(queueItem);
-    saveQueue();
-    scheduleRetry();
-
-    // Capa 4: Alerta al administrador si hay muchos fallos
-    if (failCount.onprem >= MAX_RETRIES || failCount.backup >= MAX_RETRIES) {
-      sendAdminAlert(errors);
-    }
-  }
-
-  // Guardar en localStorage siempre como respaldo local
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(DB)); } catch(e) {}
-
-  if (!onpremOk && !backupOk) {
-    toast('⚠️ Sin conexión a bases de datos. Guardado localmente.', 'er');
-    return false;
-  } else if (!onpremOk || !backupOk) {
-    toast('⚠️ Guardado parcialmente. Sincronizando en segundo plano...', 'ok');
-    return true;
-  }
+  try { localStorage.setItem(STORAGE_KEY,JSON.stringify(DB)); } catch(e) {}
+  if(!onpremOk&&!backupOk) { toast('\u26a0\ufe0f Sin conexi\u00f3n a BDs. Guardado localmente.','er'); return false; }
+  if(!onpremOk||!backupOk) { toast('\u26a0\ufe0f Guardado parcialmente. Sincronizando...','ok'); return true; }
   return true;
 }
-
-// ── Reintento automático inteligente ─────────────────────────────────────────
-function scheduleRetry() {
-  if (retryTimer) return;
-  retryTimer = setTimeout(processQueue, RETRY_INTERVALS[0]);
-}
-
+function scheduleRetry() { if(!retryTimer) retryTimer=setTimeout(processQueue,RETRY_INTERVALS[0]); }
 async function processQueue() {
-  retryTimer = null;
-  if (syncQueue.length === 0) return;
-
-  var now = Date.now();
-  var pending = syncQueue.filter(function(item) { return item.nextRetry <= now; });
-  var processed = 0;
-
-  for (var i = 0; i < pending.length; i++) {
-    var item = pending[i];
-    var allOk = true;
-
-    for (var j = 0; j < item.failedDbs.length; j++) {
-      var db = item.failedDbs[j];
-      var url = db === 'onprem' ? SUPABASE_URL : BACKUP_URL;
-      var key = db === 'onprem' ? SUPABASE_KEY : BACKUP_KEY;
-      try {
-        await saveToDb(item.record, url, key);
-        item.failedDbs.splice(j, 1); j--;
-        failCount[db] = 0;
-        updateStatus(db, 'ok');
-      } catch(e) {
-        allOk = false;
-        item.retries++;
-        if (item.retries < MAX_RETRIES) {
-          item.nextRetry = Date.now() + RETRY_INTERVALS[Math.min(item.retries, RETRY_INTERVALS.length-1)];
-        } else {
-          item.failedDbs = []; // Descartar después de MAX_RETRIES
-          toast('❌ Reporte ' + (item.record.fecha||'') + ' no pudo sincronizarse tras ' + MAX_RETRIES + ' intentos.', 'er');
-        }
-      }
+  retryTimer=null; if(!syncQueue.length) return;
+  var now=Date.now(), processed=0;
+  syncQueue.filter(function(i){return i.nextRetry<=now;}).forEach(async function(item){
+    for(var j=0;j<item.failedDbs.length;j++) {
+      var db=item.failedDbs[j],url=db==='onprem'?SUPABASE_URL:BACKUP_URL,key=db==='onprem'?SUPABASE_KEY:BACKUP_KEY;
+      try { await saveToDb(item.record,url,key); item.failedDbs.splice(j,1); j--; failCount[db]=0; updateStatus(db,'ok'); }
+      catch(e) { item.retries++; item.nextRetry=Date.now()+RETRY_INTERVALS[Math.min(item.retries,2)]; if(item.retries>=MAX_RETRIES) item.failedDbs=[]; }
     }
-    if (item.failedDbs.length === 0) processed++;
-  }
-
-  // Limpiar items procesados
-  syncQueue = syncQueue.filter(function(item) { return item.failedDbs.length > 0 && item.retries < MAX_RETRIES; });
+    if(!item.failedDbs.length) processed++;
+  });
+  syncQueue=syncQueue.filter(function(i){return i.failedDbs.length>0&&i.retries<MAX_RETRIES;});
   saveQueue();
-
-  if (processed > 0) toast('✅ ' + processed + ' reporte(s) sincronizado(s) correctamente.', 'ok');
-  if (syncQueue.length > 0) scheduleRetry();
+  if(processed>0) toast('\u2705 '+processed+' reporte(s) sincronizado(s).','ok');
+  if(syncQueue.length>0) scheduleRetry();
 }
-
-// ── Capa 5: Reconciliación automática ─────────────────────────────────────────
 async function reconcileDBs() {
-  var status = document.getElementById('sync-status');
-  if (status) { status.textContent = '🔄 Reconciliando...'; status.style.color = '#fcd34d'; }
+  var status=document.getElementById('sync-status');
+  if(status) { status.textContent='\U0001f504 Reconciliando...'; status.style.color='#fcd34d'; }
   try {
-    // Obtener registros de ambas BDs
-    var onpremResp = await fetch(SUPABASE_URL + '/rest/v1/reportes?select=id,saved_at&or=(eliminado.is.false,eliminado.is.null)', {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-    });
-    var backupResp = await fetch(BACKUP_URL + '/rest/v1/reportes?select=id,saved_at&or=(eliminado.is.false,eliminado.is.null)', {
-      headers: { 'apikey': BACKUP_KEY, 'Authorization': 'Bearer ' + BACKUP_KEY }
-    });
-
-    if (!onpremResp.ok || !backupResp.ok) throw new Error('Error al leer BDs');
-
-    var onpremIds = (await onpremResp.json()).map(function(r) { return r.id; });
-    var backupIds = (await backupResp.json()).map(function(r) { return r.id; });
-
-    // Encontrar registros que faltan en cada BD
-    var missingInBackup  = onpremIds.filter(function(id) { return backupIds.indexOf(id) < 0; });
-    var missingInOnprem  = backupIds.filter(function(id) { return onpremIds.indexOf(id) < 0; });
-    var synced = 0;
-
-    // Copiar faltantes a backup
-    for (var i = 0; i < missingInBackup.length; i++) {
-      var r = DB.find(function(x) { return x.id === missingInBackup[i]; });
-      if (r) { try { await saveToDb(recordToDb(r), BACKUP_URL, BACKUP_KEY); synced++; } catch(e) {} }
-    }
-    // Copiar faltantes a on-premises
-    for (var i = 0; i < missingInOnprem.length; i++) {
-      var r2 = DB.find(function(x) { return x.id === missingInOnprem[i]; });
-      if (r2) { try { await saveToDb(recordToDb(r2), SUPABASE_URL, SUPABASE_KEY); synced++; } catch(e) {} }
-    }
-
-    if (synced > 0) toast('✅ Reconciliación: ' + synced + ' registro(s) sincronizado(s).', 'ok');
-    else toast('✅ Bases de datos sincronizadas correctamente.', 'ok');
-    if (status) { status.textContent = '✅ Sincronizado'; status.style.color = '#86efac'; setTimeout(function(){ status.textContent=''; }, 4000); }
-  } catch(e) {
-    if (status) { status.textContent = '⚠️ Error reconciliación'; status.style.color = '#fcd34d'; }
-    console.error('Reconciliation error:', e);
-  }
+    var r1=await fetch(SUPABASE_URL+'/rest/v1/reportes?select=id&or=(eliminado.is.false,eliminado.is.null)',{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}});
+    var r2=await fetch(BACKUP_URL+'/rest/v1/reportes?select=id&or=(eliminado.is.false,eliminado.is.null)',{headers:{'apikey':BACKUP_KEY,'Authorization':'Bearer '+BACKUP_KEY}});
+    if(!r1.ok||!r2.ok) throw new Error('Error');
+    var ids1=(await r1.json()).map(function(r){return r.id;}), ids2=(await r2.json()).map(function(r){return r.id;});
+    var synced=0;
+    for(var i=0;i<ids1.length;i++) { if(ids2.indexOf(ids1[i])<0) { var rec=DB.find(function(x){return x.id===ids1[i];}); if(rec) { try { await saveToDb(recordToDb(rec),BACKUP_URL,BACKUP_KEY); synced++; } catch(e) {} } } }
+    for(var i=0;i<ids2.length;i++) { if(ids1.indexOf(ids2[i])<0) { var rec2=DB.find(function(x){return x.id===ids2[i];}); if(rec2) { try { await saveToDb(recordToDb(rec2),SUPABASE_URL,SUPABASE_KEY); synced++; } catch(e) {} } } }
+    if(status) { status.textContent='\u2705 Sincronizado'; status.style.color='#86efac'; setTimeout(function(){status.textContent='';},4000); }
+    toast(synced>0?'\u2705 Reconciliaci\u00f3n: '+synced+' registro(s).':'\u2705 Bases de datos al d\u00eda.','ok');
+  } catch(e) { if(status) { status.textContent='\u26a0\ufe0f Error'; status.style.color='#fcd34d'; } }
 }
-
-// ── Alerta al administrador ───────────────────────────────────────────────────
 function sendAdminAlert(errors) {
-  if (adminAlertSent) return;
-  adminAlertSent = true;
-  var msg = '🚨 ALERTA HAH: Fallo en base de datos\n'
-    + 'Hora: ' + new Date().toLocaleString('es-CL') + '\n'
-    + 'Errores: ' + errors.join(' | ') + '\n'
-    + 'Registros en cola: ' + syncQueue.length;
-  console.error('ADMIN ALERT:', msg);
-  // Mostrar alerta visual prominente
-  var alertDiv = document.getElementById('admin-alert');
-  if (alertDiv) {
-    alertDiv.innerHTML = '🚨 <strong>ALERTA:</strong> Fallo en base de datos. ' + syncQueue.length + ' registro(s) pendientes. Contacte a TIC\'s.';
-    alertDiv.style.display = 'block';
-    setTimeout(function() { adminAlertSent = false; }, 30 * 60 * 1000); // reset en 30 min
-  }
+  if(adminAlertSent) return; adminAlertSent=true;
+  var a=document.getElementById('admin-alert');
+  if(a) { a.innerHTML='\U0001f6a8 <strong>ALERTA:</strong> Fallo en BD. '+syncQueue.length+' registro(s) pendientes. Contacte a TIC\'s.'; a.style.display='block'; }
+  setTimeout(function(){adminAlertSent=false;},1800000);
+}
+function updateStatus(db,state) {
+  var el=document.getElementById('status-'+db); if(!el) return;
+  el.textContent=state==='ok'?(db==='onprem'?'\U0001f7e2 On-prem':'\U0001f7e2 Respaldo'):(db==='onprem'?'\U0001f534 On-prem':'\U0001f534 Respaldo');
+  el.style.color=state==='ok'?'#86efac':'#fca5a5';
 }
 
-// ── Estado de conexión por BD ─────────────────────────────────────────────────
-function updateStatus(db, state) {
-  var el = document.getElementById('status-' + db);
-  if (!el) return;
-  if (state === 'ok') { el.textContent = db === 'onprem' ? '🟢 On-prem' : '🟢 Respaldo'; el.title = 'Conectado'; }
-  else { el.textContent = db === 'onprem' ? '🔴 On-prem' : '🔴 Respaldo'; el.title = 'Sin conexión'; }
-}
 
 // â”€â”€ Supabase API helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function sbFetch(path, options) {
@@ -1645,43 +1494,35 @@ function removeCustomArea(i) { customAreas.splice(i,1); buildCustomGrid(); updTo
 
 
 async function syncFromCloud() {
-  var status = document.getElementById('sync-status');
-  if (status) { status.textContent = '⏳ Sincronizando...'; status.style.color = 'white'; }
-  var rows = null;
-  // Intentar BD principal primero
+  var status=document.getElementById('sync-status');
+  if(status) { status.textContent='⏳ Sincronizando...'; status.style.color='white'; }
+  var rows=null;
   try {
-    var r1 = await fetch(SUPABASE_URL + '/rest/v1/reportes?select=*&or=(eliminado.is.false,eliminado.is.null)&order=fecha.desc', {
-      method: 'GET', mode: 'cors',
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' }
-    });
-    if (r1.ok) { rows = await r1.json(); updateStatus('onprem','ok'); }
+    var r1=await fetch(SUPABASE_URL+'/rest/v1/reportes?select=*&or=(eliminado.is.false,eliminado.is.null)&order=fecha.desc',{method:'GET',mode:'cors',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'}});
+    if(r1.ok) { rows=await r1.json(); updateStatus('onprem','ok'); }
   } catch(e) { updateStatus('onprem','error'); }
-  // Si BD principal falla, usar respaldo
-  if (!rows) {
+  if(!rows) {
     try {
-      var r2 = await fetch(BACKUP_URL + '/rest/v1/reportes?select=*&or=(eliminado.is.false,eliminado.is.null)&order=fecha.desc', {
-        method: 'GET', mode: 'cors',
-        headers: { 'apikey': BACKUP_KEY, 'Authorization': 'Bearer ' + BACKUP_KEY, 'Content-Type': 'application/json' }
-      });
-      if (r2.ok) { rows = await r2.json(); updateStatus('backup','ok'); toast('⚠️ Sincronizado desde respaldo. BD principal no disponible.','ok'); }
+      var r2=await fetch(BACKUP_URL+'/rest/v1/reportes?select=*&or=(eliminado.is.false,eliminado.is.null)&order=fecha.desc',{method:'GET',mode:'cors',headers:{'apikey':BACKUP_KEY,'Authorization':'Bearer '+BACKUP_KEY,'Content-Type':'application/json'}});
+      if(r2.ok) { rows=await r2.json(); updateStatus('backup','ok'); toast('⚠️ Sincronizado desde respaldo. BD principal no disponible.','ok'); }
     } catch(e2) { updateStatus('backup','error'); }
   }
-  if (rows) {
-    DB = rows.map(dbToRecord);
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(DB)); } catch(e) {}
+  if(rows) {
+    DB=rows.map(dbToRecord);
+    try { localStorage.setItem(STORAGE_KEY,JSON.stringify(DB)); } catch(e) {}
     updateBadge();
-    if (status) { status.textContent = '✅ Sincronizado'; status.style.color = '#86efac'; setTimeout(function(){ status.textContent=''; }, 3000); }
-    var activePage = document.querySelector('.page.active');
-    if (activePage && activePage.id === 'page-hist') renderHist();
-    if (activePage && activePage.id === 'page-dash') renderDash();
-    if (activePage && activePage.id === 'page-facil') renderFacilTabs();
-    toast('✅ ' + DB.length + ' reportes sincronizados','ok');
-    if (syncQueue.length > 0) setTimeout(processQueue, 1000);
+    if(status) { status.textContent='✅ Sincronizado'; status.style.color='#86efac'; setTimeout(function(){status.textContent='';},3000); }
+    var ap=document.querySelector('.page.active');
+    if(ap&&ap.id==='page-hist') renderHist();
+    if(ap&&ap.id==='page-dash') renderDash();
+    if(ap&&ap.id==='page-facil') renderFacilTabs();
+    toast('✅ '+DB.length+' reportes sincronizados','ok');
+    if(syncQueue.length>0) setTimeout(processQueue,1000);
   } else {
-    if (status) { status.textContent = '⚠️ Sin conexión'; status.style.color = '#fcd34d'; }
-    try { var r3 = localStorage.getItem(STORAGE_KEY); DB = r3 ? JSON.parse(r3) : []; } catch(e3) { DB = []; }
+    if(status) { status.textContent='⚠️ Sin conexión'; status.style.color='#fcd34d'; }
+    try { var r3=localStorage.getItem(STORAGE_KEY); DB=r3?JSON.parse(r3):[]; } catch(e3) { DB=[]; }
     updateBadge();
-    toast('⚠️ Sin conexión a ninguna BD. Mostrando datos locales.','er');
+    toast('⚠️ Sin conexión a ninguna BD.','er');
   }
 }
 
@@ -1867,42 +1708,23 @@ function renderFacilContent() {
 
 async function dbLoad() {
   loadQueue();
-  var loaded = false;
-  // Intentar BD principal
+  var loaded=false;
   try {
-    var rows = await sbGetAll();
-    DB = rows.map(dbToRecord);
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(DB)); } catch(e) {}
-    updateStatus('onprem','ok');
-    loaded = true;
-  } catch(e) {
-    updateStatus('onprem','error');
-    console.warn('BD principal no disponible:', e.message);
-  }
-  // Intentar respaldo si principal falla
-  if (!loaded) {
+    var rows=await sbGetAll();
+    DB=rows.map(dbToRecord);
+    try { localStorage.setItem(STORAGE_KEY,JSON.stringify(DB)); } catch(e) {}
+    updateStatus('onprem','ok'); loaded=true;
+  } catch(e) { updateStatus('onprem','error'); console.warn('BD principal:',e.message); }
+  if(!loaded) {
     try {
-      var r2 = await fetch(BACKUP_URL + '/rest/v1/reportes?select=*&or=(eliminado.is.false,eliminado.is.null)&order=fecha.desc', {
-        method:'GET', mode:'cors',
-        headers:{'apikey':BACKUP_KEY,'Authorization':'Bearer '+BACKUP_KEY,'Content-Type':'application/json'}
-      });
-      if (r2.ok) {
-        DB = (await r2.json()).map(dbToRecord);
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(DB)); } catch(e) {}
-        updateStatus('backup','ok');
-        loaded = true;
-        toast('⚠️ Conectado a BD respaldo. BD principal no disponible.','ok');
-      }
+      var r2=await fetch(BACKUP_URL+'/rest/v1/reportes?select=*&or=(eliminado.is.false,eliminado.is.null)&order=fecha.desc',{method:'GET',mode:'cors',headers:{'apikey':BACKUP_KEY,'Authorization':'Bearer '+BACKUP_KEY,'Content-Type':'application/json'}});
+      if(r2.ok) { DB=(await r2.json()).map(dbToRecord); try { localStorage.setItem(STORAGE_KEY,JSON.stringify(DB)); } catch(e) {} updateStatus('backup','ok'); loaded=true; toast('⚠️ Conectado a BD respaldo.','ok'); }
     } catch(e2) { updateStatus('backup','error'); }
   }
-  // Último recurso: localStorage
-  if (!loaded) {
-    try { var r3 = localStorage.getItem(STORAGE_KEY); DB = r3 ? JSON.parse(r3) : []; } catch(e3) { DB = []; }
-    toast('⚠️ Sin conexión a bases de datos. Mostrando datos locales.','er');
-  }
+  if(!loaded) { try { var r3=localStorage.getItem(STORAGE_KEY); DB=r3?JSON.parse(r3):[]; } catch(e3) { DB=[]; } }
   updateBadge();
-  if (syncQueue.length > 0) setTimeout(processQueue, 3000);
-  setTimeout(reconcileDBs, 15000); // Reconciliación automática en segundo plano
+  if(syncQueue.length>0) setTimeout(processQueue,3000);
+  setTimeout(reconcileDBs,15000);
 }
 async function dbSave(record) {
   try {
