@@ -361,12 +361,12 @@ html { font-size: 14px; }
   <button onclick="syncFromCloud()" id="sync-btn" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;padding:5px 12px;border-radius:10px;cursor:pointer;font-weight:600">&#9729; Sincronizar</button>
   <div id="admin-alert" style="display:none;position:fixed;top:0;left:0;right:0;background:#991b1b;color:white;padding:10px 20px;font-size:13px;font-weight:700;z-index:9999;text-align:center"></div>
   <div style="display:flex;align-items:center;gap:6px;margin-left:auto">
-    <span id="status-onprem" style="font-size:10px;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.1);color:white">⏳ On-prem</span>
-    <span id="status-backup" style="font-size:10px;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.1);color:white">⏳ Respaldo</span>
+    <span id="status-onprem" style="font-size:10px;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.15);color:#fcd34d">● On-prem</span>
+    <span id="status-backup" style="font-size:10px;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.15);color:#fcd34d">● Respaldo</span>
     <span id="queue-badge" style="display:none;font-size:10px;padding:3px 8px;border-radius:8px;font-weight:700"></span>
     <div id="sync-status" style="font-size:11px;opacity:.8"></div>
-    <button onclick="reconcileDBs()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;font-weight:600">🔄 Reconciliar</button>
-    <button onclick="syncFromCloud()" id="sync-btn" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;font-weight:600">☁️ Sincronizar</button>
+    <button onclick="reconcileDBs()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;font-weight:600">Reconciliar</button>
+    <button onclick="syncFromCloud()" id="sync-btn" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;padding:5px 10px;border-radius:8px;cursor:pointer;font-weight:600">Sincronizar</button>
   </div>
   <div id="db-badge" style="font-size:11px;background:rgba(255,255,255,.12);padding:4px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.2);white-space:nowrap">&#128190; Cargando...</div>
 </div>
@@ -578,7 +578,7 @@ html { font-size: 14px; }
       </div>
       <input type="hidden" id="resuelta-val">
       <div id="resuelta-no-sub" class="yn-sub" style="display:none">
-        <label class="lbl">Â¿Por quÃ© no quedó resuelta?</label>
+        <label class="lbl">Â¿Por qué no quedó resuelta?</label>
         <textarea id="resuelta-motivo" rows="2" placeholder="Indicar motivo por el cual no quedó resuelta la consulta..."></textarea>
       </div>
 
@@ -594,7 +594,7 @@ html { font-size: 14px; }
       <div id="lider-si-sub" class="yn-sub" style="display:none">
         <div class="form-row" style="margin-bottom:10px">
           <div><label class="lbl">Fecha de derivación</label><input type="date" id="lider-fecha"></div>
-          <div><label class="lbl">Â¿A quiÃ©n se derivó?</label><input type="text" id="lider-quien" placeholder="Nombre del Líder Funcional..."></div>
+          <div><label class="lbl">Â¿A quién se derivó?</label><input type="text" id="lider-quien" placeholder="Nombre del Líder Funcional..."></div>
         </div>
         <label class="lbl">Sistema</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
@@ -618,7 +618,7 @@ html { font-size: 14px; }
       <div id="mesa-si-sub" class="yn-sub" style="display:none">
         <div class="form-row" style="margin-bottom:10px">
           <div><label class="lbl">Fecha de derivación</label><input type="date" id="mesa-fecha"></div>
-          <div><label class="lbl">Â¿A quiÃ©n se derivó?</label><input type="text" id="mesa-quien" placeholder="Nombre del responsable..."></div>
+          <div><label class="lbl">Â¿A quién se derivó?</label><input type="text" id="mesa-quien" placeholder="Nombre del responsable..."></div>
         </div>
         <label class="lbl">Sistema</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;margin-bottom:10px">
@@ -644,7 +644,7 @@ html { font-size: 14px; }
       <div id="jp-si-sub" class="yn-sub" style="display:none">
         <div class="form-row" style="margin-bottom:10px">
           <div><label class="lbl">Fecha de derivación</label><input type="date" id="jp-fecha"></div>
-          <div><label class="lbl">Â¿A quiÃ©n se derivó?</label><input type="text" id="jp-quien" placeholder="Nombre del JP o PMO..."></div>
+          <div><label class="lbl">Â¿A quién se derivó?</label><input type="text" id="jp-quien" placeholder="Nombre del JP o PMO..."></div>
         </div>
         <label class="lbl">Sistema</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
@@ -671,7 +671,7 @@ html { font-size: 14px; }
         <input type="hidden" id="ticket-cliente-val">
         <div id="ticket-cliente-si-sub" class="yn-sub" style="display:none">
           <div class="form-row" style="margin-bottom:0">
-            <div><label class="lbl">NÂ° de Ticket</label><input type="text" id="ticket-cliente-nro" placeholder="Ej: TKT-2024-001"></div>
+            <div><label class="lbl">N° de Ticket</label><input type="text" id="ticket-cliente-nro" placeholder="Ej: TKT-2024-001"></div>
             <div><label class="lbl">Fecha de generación</label><input type="date" id="ticket-cliente-fecha"></div>
           </div>
         </div>
@@ -687,7 +687,7 @@ html { font-size: 14px; }
         <input type="hidden" id="ticket-gesnova-val">
         <div id="ticket-gesnova-si-sub" class="yn-sub" style="display:none">
           <div class="form-row" style="margin-bottom:0">
-            <div><label class="lbl">NÂ° de Ticket</label><input type="text" id="ticket-gesnova-nro" placeholder="Ej: GN-2024-001"></div>
+            <div><label class="lbl">N° de Ticket</label><input type="text" id="ticket-gesnova-nro" placeholder="Ej: GN-2024-001"></div>
             <div><label class="lbl">Fecha de generación</label><input type="date" id="ticket-gesnova-fecha"></div>
           </div>
         </div>
@@ -794,9 +794,9 @@ html { font-size: 14px; }
 <div class="toast" id="toast"></div>
 
 <script>
-const AREAS_BASE = ["ADMISION HAH", "ANATOMIA PATOLOGICA HAH", "ANESTESIOLOGIA HAH", "ARCHIVO HAH", "ATENCION DE ENFERMERIA HAH", "ATENCION KINESIOLOGICA HAH", "ATENCION MATRONERIA HAH", "ATENCION NUTRICIONAL HAH", "ATENCION POR FONOAUDIOLOGO HAH", "ATENCION POR TECNOLOGO MEDICO HAH", "ATENCION POR TERAPEUTA OCUPACIONAL HAH", "ATENCION PSICOLOGIA HAH", "ATENCION SOCIAL HAH", "BIOESTADISTICA HAH", "CALIDAD Y SEGURIDAD DEL PACIENTE HAH", "CIRUGIA GENERAL ADULTO HAH", "CIRUGIA PEDIATRICA HAH", "CIRUGIA PLASTICA HAH", "COMITÃ‰ ONCOLÃ“GICO HAH", "CUIDADOS PALIATIVOS HAH", "DERMATOLOGIA HAH", "DIRECCION Y SUBDIRECCIONES HAH", "ECOGRAFIA (ECOABDOMINAL)", "ENDODONCIA HAH", "ENFERMEDAD DE TRANSMISION SEXUAL ADULTO HAH", "FARMACIA AMBULATORIA ACTIVA 1", "FARMACIA AMBULATORIA CONTROLADOS", "FARMACIA AMBULATORIO HAH", "FARMACIA HOSPITAL DE DIA", "FARMACIA HOSPITALIZADO HAH", "FARMACIA URGENCIA HAH", "GASTROENTEROLOGIA HAH", "GINECOLOGIA HAH", "GRD HAH", "HOSPITAL DE DIA HAH", "HOSPITALIZACION UHCIP", "HOSPITALIZACIÃ“N GINECOLÃ“GICA HAH", "HOSPITALIZACIÃ“N OBSTÃ‰TRICA HAH", "IAAS HAH", "IMAGENOLOGÃA HAH", "IMPLANTOLOGÃA BUCO MAXILOFACIAL HAH", "INFECTOLOGIA HAH", "LABORATORIO CLÃNICO HAH", "MAXILO FACIAL HAH", "MEDICINA FISICA Y REHABILITACION HAH", "MEDICINA GENERAL UPQ HAH", "MEDICINA INTERNA HAH", "MÃ‰DICO QUIRÃšRGICO CAMAS BÃSICAS", "MÃ‰DICO QUIRÃšRGICO CAMAS MEDIAS", "NEUROLOGIA ADULTO HAH", "OBSTETRICIA HAH", "ODONTOPEDIATRIA HAH", "OFTALMOLOGIA HAH", "OIRS HAH", "ORTODONCIA HAH", "PEDIATRIA HAH", "PENSIONADO", "PERIODONCIA HAH", "PRE QUIRURGICA HAH", "PVVIH HAH", "RECAUDACION HAH", "REHABILITACIÃ“N ORAL HAH", "SAIP", "SALUD DEL TRABAJADOR HAH", "SERVICIOS CLINICOS", "TRASTORNOS TEMPORO MANDIBULAR HAH", "TRAUMATOLOGIA Y ORTOPEDIA HAH", "TRAUMATOLOGIA Y ORTOPEDIA PEDIATRICA HAH", "UCMA HAH", "UCRA HAH", "UNACESS HAH", "UNIDAD DE PEDIATRIA", "URGENCIA ADULTO HAH", "URGENCIA GINECO-OBSTÃ‰TRICA HAH", "URGENCIA PEDIÃTRICA HAH", "UROLOGIA HAH", "UROLOGIA INFANTIL HAH", "UTI HAH", "ORIENTACIÃ“N AL USUARIO Y GESTIÃ“N SOCIAL", "LISTA  DE ESPERA HAH", "GES HAH", "HODOM"];
+const AREAS_BASE = ["ADMISION HAH", "ANATOMIA PATOLOGICA HAH", "ANESTESIOLOGIA HAH", "ARCHIVO HAH", "ATENCION DE ENFERMERIA HAH", "ATENCION KINESIOLOGICA HAH", "ATENCION MATRONERIA HAH", "ATENCION NUTRICIONAL HAH", "ATENCION POR FONOAUDIOLOGO HAH", "ATENCION POR TECNOLOGO MEDICO HAH", "ATENCION POR TERAPEUTA OCUPACIONAL HAH", "ATENCION PSICOLOGIA HAH", "ATENCION SOCIAL HAH", "BIOESTADISTICA HAH", "CALIDAD Y SEGURIDAD DEL PACIENTE HAH", "CIRUGIA GENERAL ADULTO HAH", "CIRUGIA PEDIATRICA HAH", "CIRUGIA PLASTICA HAH", "COMITÃ‰ ONCOLÃ“GICO HAH", "CUIDADOS PALIATIVOS HAH", "DERMATOLOGIA HAH", "DIRECCION Y SUBDIRECCIONES HAH", "ECOGRAFIA (ECOABDOMINAL)", "ENDODONCIA HAH", "ENFERMEDAD DE TRANSMISION SEXUAL ADULTO HAH", "FARMACIA AMBULATORIA ACTIVA 1", "FARMACIA AMBULATORIA CONTROLADOS", "FARMACIA AMBULATORIO HAH", "FARMACIA HOSPITAL DE DIA", "FARMACIA HOSPITALIZADO HAH", "FARMACIA URGENCIA HAH", "GASTROENTEROLOGIA HAH", "GINECOLOGIA HAH", "GRD HAH", "HOSPITAL DE DIA HAH", "HOSPITALIZACION UHCIP", "HOSPITALIZACIÃ“N GINECOLÃ“GICA HAH", "HOSPITALIZACIÃ“N OBSTÃ‰TRICA HAH", "IAAS HAH", "IMAGENOLOGÃA HAH", "IMPLANTOLOGÃA BUCO MAXILOFACIAL HAH", "INFECTOLOGIA HAH", "LABORATORIO CLÃNICO HAH", "MAXILO FACIAL HAH", "MEDICINA FISICA Y REHABILITACION HAH", "MEDICINA GENERAL UPQ HAH", "MEDICINA INTERNA HAH", "MÃ‰DICO QUIRÃšRGICO CAMAS BÁSICAS", "MÃ‰DICO QUIRÃšRGICO CAMAS MEDIAS", "NEUROLOGIA ADULTO HAH", "OBSTETRICIA HAH", "ODONTOPEDIATRIA HAH", "OFTALMOLOGIA HAH", "OIRS HAH", "ORTODONCIA HAH", "PEDIATRIA HAH", "PENSIONADO", "PERIODONCIA HAH", "PRE QUIRURGICA HAH", "PVVIH HAH", "RECAUDACION HAH", "REHABILITACIÃ“N ORAL HAH", "SAIP", "SALUD DEL TRABAJADOR HAH", "SERVICIOS CLINICOS", "TRASTORNOS TEMPORO MANDIBULAR HAH", "TRAUMATOLOGIA Y ORTOPEDIA HAH", "TRAUMATOLOGIA Y ORTOPEDIA PEDIATRICA HAH", "UCMA HAH", "UCRA HAH", "UNACESS HAH", "UNIDAD DE PEDIATRIA", "URGENCIA ADULTO HAH", "URGENCIA GINECO-OBSTÃ‰TRICA HAH", "URGENCIA PEDIÁTRICA HAH", "UROLOGIA HAH", "UROLOGIA INFANTIL HAH", "UTI HAH", "ORIENTACIÃ“N AL USUARIO Y GESTIÃ“N SOCIAL", "LISTA  DE ESPERA HAH", "GES HAH", "HODOM"];
 
-const DIAS = ['domingo','lunes','martes','miÃ©rcoles','jueves','viernes','sÃ¡bado'];
+const DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const AMBITOS_ICONS = {'Urgencia':'ðŸš¨','Ambulatorio':'ðŸƒ','Atención Cerrada':'ðŸ›ï¸','Transversal':'ðŸ”„'};
 const STORAGE_KEY = 'hah_reportes_v3';
@@ -820,7 +820,7 @@ function saveQueue() {
 }
 function updateQueueBadge() {
   var b=document.getElementById('queue-badge'); if(!b) return;
-  if(syncQueue.length>0) { b.textContent='\u26a0\ufe0f '+syncQueue.length+' pendiente'+(syncQueue.length>1?'s':''); b.style.display='inline-block'; b.style.background='#991b1b'; b.style.color='white'; }
+  if(syncQueue.length>0) { b.textContent='! '+syncQueue.length+' pendiente'+(syncQueue.length>1?'s':''); b.style.display='inline-block'; b.style.background='#991b1b'; b.style.color='white'; }
   else b.style.display='none';
 }
 async function saveToDb(record, url, key) {
@@ -831,7 +831,7 @@ async function saveToDb(record, url, key) {
 async function dbSave(record) {
   var dbRecord=recordToDb(record), onpremOk=false, backupOk=false, errors=[];
   try { await saveToDb(dbRecord,SUPABASE_URL,SUPABASE_KEY); onpremOk=true; failCount.onprem=0; updateStatus('onprem','ok'); }
-  catch(e) { errors.push('On-premises: '+e.message); failCount.onprem++; updateStatus('onprem','error'); }
+  catch(e) { errors.push('On-prem: '+e.message); failCount.onprem++; updateStatus('onprem','error'); }
   try { await saveToDb(dbRecord,BACKUP_URL,BACKUP_KEY); backupOk=true; failCount.backup=0; updateStatus('backup','ok'); }
   catch(e) { errors.push('Respaldo: '+e.message); failCount.backup++; updateStatus('backup','error'); }
   if(!onpremOk||!backupOk) {
@@ -840,30 +840,32 @@ async function dbSave(record) {
     if(failCount.onprem>=MAX_RETRIES||failCount.backup>=MAX_RETRIES) sendAdminAlert(errors);
   }
   try { localStorage.setItem(STORAGE_KEY,JSON.stringify(DB)); } catch(e) {}
-  if(!onpremOk&&!backupOk) { toast('\u26a0\ufe0f Sin conexi\u00f3n a BDs. Guardado localmente.','er'); return false; }
-  if(!onpremOk||!backupOk) { toast('\u26a0\ufe0f Guardado parcialmente. Sincronizando...','ok'); return true; }
+  if(!onpremOk&&!backupOk) { toast('Sin conexion a BDs. Guardado localmente.','er'); return false; }
+  if(!onpremOk||!backupOk) { toast('Guardado parcialmente. Sincronizando...','ok'); return true; }
   return true;
 }
 function scheduleRetry() { if(!retryTimer) retryTimer=setTimeout(processQueue,RETRY_INTERVALS[0]); }
 async function processQueue() {
   retryTimer=null; if(!syncQueue.length) return;
   var now=Date.now(), processed=0;
-  syncQueue.filter(function(i){return i.nextRetry<=now;}).forEach(async function(item){
+  for(var k=0;k<syncQueue.length;k++) {
+    var item=syncQueue[k];
+    if(item.nextRetry>now) continue;
     for(var j=0;j<item.failedDbs.length;j++) {
       var db=item.failedDbs[j],url=db==='onprem'?SUPABASE_URL:BACKUP_URL,key=db==='onprem'?SUPABASE_KEY:BACKUP_KEY;
       try { await saveToDb(item.record,url,key); item.failedDbs.splice(j,1); j--; failCount[db]=0; updateStatus(db,'ok'); }
       catch(e) { item.retries++; item.nextRetry=Date.now()+RETRY_INTERVALS[Math.min(item.retries,2)]; if(item.retries>=MAX_RETRIES) item.failedDbs=[]; }
     }
     if(!item.failedDbs.length) processed++;
-  });
+  }
   syncQueue=syncQueue.filter(function(i){return i.failedDbs.length>0&&i.retries<MAX_RETRIES;});
   saveQueue();
-  if(processed>0) toast('\u2705 '+processed+' reporte(s) sincronizado(s).','ok');
+  if(processed>0) toast(processed+' reporte(s) sincronizado(s).','ok');
   if(syncQueue.length>0) scheduleRetry();
 }
 async function reconcileDBs() {
   var status=document.getElementById('sync-status');
-  if(status) { status.textContent='\U0001f504 Reconciliando...'; status.style.color='#fcd34d'; }
+  if(status) { status.textContent='Reconciliando...'; status.style.color='#fcd34d'; }
   try {
     var r1=await fetch(SUPABASE_URL+'/rest/v1/reportes?select=id&or=(eliminado.is.false,eliminado.is.null)',{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}});
     var r2=await fetch(BACKUP_URL+'/rest/v1/reportes?select=id&or=(eliminado.is.false,eliminado.is.null)',{headers:{'apikey':BACKUP_KEY,'Authorization':'Bearer '+BACKUP_KEY}});
@@ -872,20 +874,21 @@ async function reconcileDBs() {
     var synced=0;
     for(var i=0;i<ids1.length;i++) { if(ids2.indexOf(ids1[i])<0) { var rec=DB.find(function(x){return x.id===ids1[i];}); if(rec) { try { await saveToDb(recordToDb(rec),BACKUP_URL,BACKUP_KEY); synced++; } catch(e) {} } } }
     for(var i=0;i<ids2.length;i++) { if(ids1.indexOf(ids2[i])<0) { var rec2=DB.find(function(x){return x.id===ids2[i];}); if(rec2) { try { await saveToDb(recordToDb(rec2),SUPABASE_URL,SUPABASE_KEY); synced++; } catch(e) {} } } }
-    if(status) { status.textContent='\u2705 Sincronizado'; status.style.color='#86efac'; setTimeout(function(){status.textContent='';},4000); }
-    toast(synced>0?'\u2705 Reconciliaci\u00f3n: '+synced+' registro(s).':'\u2705 Bases de datos al d\u00eda.','ok');
-  } catch(e) { if(status) { status.textContent='\u26a0\ufe0f Error'; status.style.color='#fcd34d'; } }
+    if(status) { status.textContent='Sincronizado'; status.style.color='#86efac'; setTimeout(function(){status.textContent='';},4000); }
+    toast(synced>0?synced+' registro(s) reconciliado(s).':'Bases de datos al dia.','ok');
+  } catch(e) { if(status) { status.textContent='Error reconciliacion'; status.style.color='#fcd34d'; } }
 }
 function sendAdminAlert(errors) {
   if(adminAlertSent) return; adminAlertSent=true;
   var a=document.getElementById('admin-alert');
-  if(a) { a.innerHTML='\U0001f6a8 <strong>ALERTA:</strong> Fallo en BD. '+syncQueue.length+' registro(s) pendientes. Contacte a TIC\'s.'; a.style.display='block'; }
+  if(a) { a.innerHTML='ALERTA: Fallo en BD. '+syncQueue.length+' registro(s) pendientes. Contacte a TICs.'; a.style.display='block'; }
   setTimeout(function(){adminAlertSent=false;},1800000);
 }
 function updateStatus(db,state) {
   var el=document.getElementById('status-'+db); if(!el) return;
-  el.textContent=state==='ok'?(db==='onprem'?'\U0001f7e2 On-prem':'\U0001f7e2 Respaldo'):(db==='onprem'?'\U0001f534 On-prem':'\U0001f534 Respaldo');
-  el.style.color=state==='ok'?'#86efac':'#fca5a5';
+  var isOk=state==='ok';
+  el.textContent=(isOk?'● ':'● ')+(db==='onprem'?'On-prem':'Respaldo');
+  el.style.color=isOk?'#86efac':'#fca5a5';
 }
 
 
@@ -955,7 +958,7 @@ async function sbDelete(id) {
 }
 
 function recordToDb(d) {
-  if (!d || !d.id) throw new Error('Registro invÃ¡lido: falta el ID');
+  if (!d || !d.id) throw new Error('Registro inválido: falta el ID');
   return {
     id: d.id,
     facilitador: d.facilitador,
@@ -1011,7 +1014,7 @@ function dbToRecord(row) {
   };
 }
 
-const PROFESIONALES = ['Acupunturista','Administrativo','Admisionista','Agente Comunitario','Asistente Social','Auditor','Bioquímico (a)','Cirujano Dentista','Educador (a) de PÃ¡rvulos','Educador (a) Sanitario (a)','Enfermera (o)','Estadístico (a) Profesional','Fonoaudiólogo (a)','Higienista Dental','Interno Enfermería','Kinesiólogo (a)','Masoterapeuta','Matrón (a)','MÃ©dico','Nutricionista','Odontólogo','Operador TerapÃ©utico','Orientador Familiar','Ortoprotesista','Podólogo','Profesional de la Actividad Física','Profesional Mapa de Derivación','Profesor (a) Educación Física','Psicopedagogía','Psicoterapeuta','Psicólogo (a)','Psiquiatra','Químico FarmacÃ©utico','Tecnólogo MÃ©dico','Terapeuta Complementario','Terapeuta Ocupacional','Trabajador(a) Social','TÃ©cnico en Farmacia','TÃ©cnico Estadístico','TÃ©cnico ParamÃ©dico','TÃ©cnico Rehabilitación Alcohol y Drogas'];
+const PROFESIONALES = ['Acupunturista','Administrativo','Admisionista','Agente Comunitario','Asistente Social','Auditor','Bioquímico (a)','Cirujano Dentista','Educador (a) de Párvulos','Educador (a) Sanitario (a)','Enfermera (o)','Estadístico (a) Profesional','Fonoaudiólogo (a)','Higienista Dental','Interno Enfermería','Kinesiólogo (a)','Masoterapeuta','Matrón (a)','Médico','Nutricionista','Odontólogo','Operador Terapéutico','Orientador Familiar','Ortoprotesista','Podólogo','Profesional de la Actividad Física','Profesional Mapa de Derivación','Profesor (a) Educación Física','Psicopedagogía','Psicoterapeuta','Psicólogo (a)','Psiquiatra','Químico Farmacéutico','Tecnólogo Médico','Terapeuta Complementario','Terapeuta Ocupacional','Trabajador(a) Social','Técnico en Farmacia','Técnico Estadístico','Técnico Paramédico','Técnico Rehabilitación Alcohol y Drogas'];
 const HERRAMIENTAS = {"NovaHub": ["OIRS", "Orientación al usuario y Gestión Social"], "TrakCare": ["Analizador de datos- Estadistica", "Archivo", "Imagenologia", "Stock", "Agenda", "Urgencia", "Hospitalizado", "Ambulatorio", "Farmacia", "Quirurgico", "GES", "Lista de espera", "Administración de pacientes", "Hospitalización Salud Mental", "UPC", "Hospitalización domiciliaria", "Laboratorio", "Anatomia Patologica", "UMT"], "ERP": ["Recaudación", "Activos Fijos", "Presupuesto", "Existencias"], "BUS": ["RIS", "FONASA", "Alimentación", "ERP"], "SITGEQ": []};
 
 var DB = [], editId = null;
@@ -1261,7 +1264,7 @@ function cancelAddTa() {
 function confirmAddTa() {
   var name = document.getElementById('new-ta-name').value.trim();
   if (!name) { toast('Escribe el nombre de la actividad','er'); return; }
-  var all = ['Capacitación','AcompaÃ±amiento/Apoyo en Terreno','Reunión'].concat(customTipoAct).map(function(a){ return a.toLowerCase(); });
+  var all = ['Capacitación','Acompañamiento/Apoyo en Terreno','Reunión'].concat(customTipoAct).map(function(a){ return a.toLowerCase(); });
   if (all.indexOf(name.toLowerCase()) >= 0) { toast('Esa actividad ya existe','er'); return; }
   customTipoAct.push(name);
   renderCustomTa();
@@ -1479,14 +1482,14 @@ function cancelAddArea() {
 }
 function confirmAddArea() {
   var name = document.getElementById('new-area-name').value.trim();
-  if (!name) { toast('Escribe el nombre del Ã¡rea','er'); return; }
+  if (!name) { toast('Escribe el nombre del área','er'); return; }
   var all = AREAS_BASE.concat(customAreas).map(function(a){ return a.toLowerCase(); });
-  if (all.indexOf(name.toLowerCase()) >= 0) { toast('Esa Ã¡rea ya existe en el listado','er'); return; }
+  if (all.indexOf(name.toLowerCase()) >= 0) { toast('Esa área ya existe en el listado','er'); return; }
   customAreas.push(name);
   buildCustomGrid();
   cancelAddArea();
   updTotal();
-  toast('✅ Ãrea "' + name + '" agregada','ok');
+  toast('✅ Área "' + name + '" agregada','ok');
 }
 function removeCustomArea(i) { customAreas.splice(i,1); buildCustomGrid(); updTotal(); }
 
@@ -1495,7 +1498,7 @@ function removeCustomArea(i) { customAreas.splice(i,1); buildCustomGrid(); updTo
 
 async function syncFromCloud() {
   var status=document.getElementById('sync-status');
-  if(status) { status.textContent='⏳ Sincronizando...'; status.style.color='white'; }
+  if(status) { status.textContent='Sincronizando...'; status.style.color='white'; }
   var rows=null;
   try {
     var r1=await fetch(SUPABASE_URL+'/rest/v1/reportes?select=*&or=(eliminado.is.false,eliminado.is.null)&order=fecha.desc',{method:'GET',mode:'cors',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'}});
@@ -1504,25 +1507,25 @@ async function syncFromCloud() {
   if(!rows) {
     try {
       var r2=await fetch(BACKUP_URL+'/rest/v1/reportes?select=*&or=(eliminado.is.false,eliminado.is.null)&order=fecha.desc',{method:'GET',mode:'cors',headers:{'apikey':BACKUP_KEY,'Authorization':'Bearer '+BACKUP_KEY,'Content-Type':'application/json'}});
-      if(r2.ok) { rows=await r2.json(); updateStatus('backup','ok'); toast('⚠️ Sincronizado desde respaldo. BD principal no disponible.','ok'); }
+      if(r2.ok) { rows=await r2.json(); updateStatus('backup','ok'); toast('Sincronizado desde respaldo.','ok'); }
     } catch(e2) { updateStatus('backup','error'); }
   }
   if(rows) {
     DB=rows.map(dbToRecord);
     try { localStorage.setItem(STORAGE_KEY,JSON.stringify(DB)); } catch(e) {}
     updateBadge();
-    if(status) { status.textContent='✅ Sincronizado'; status.style.color='#86efac'; setTimeout(function(){status.textContent='';},3000); }
+    if(status) { status.textContent='Sincronizado'; status.style.color='#86efac'; setTimeout(function(){status.textContent='';},3000); }
     var ap=document.querySelector('.page.active');
     if(ap&&ap.id==='page-hist') renderHist();
     if(ap&&ap.id==='page-dash') renderDash();
     if(ap&&ap.id==='page-facil') renderFacilTabs();
-    toast('✅ '+DB.length+' reportes sincronizados','ok');
+    toast(DB.length+' reportes sincronizados','ok');
     if(syncQueue.length>0) setTimeout(processQueue,1000);
   } else {
-    if(status) { status.textContent='⚠️ Sin conexión'; status.style.color='#fcd34d'; }
+    if(status) { status.textContent='Sin conexion'; status.style.color='#fcd34d'; }
     try { var r3=localStorage.getItem(STORAGE_KEY); DB=r3?JSON.parse(r3):[]; } catch(e3) { DB=[]; }
     updateBadge();
-    toast('⚠️ Sin conexión a ninguna BD.','er');
+    toast('Sin conexion a ninguna BD.','er');
   }
 }
 
@@ -1588,7 +1591,7 @@ function renderFacilContent() {
   var sortedAreas = Object.entries(areaSum).sort(function(a,b){ return b[1]-a[1]; }).slice(0,10);
   var maxA = sortedAreas[0] ? sortedAreas[0][1] : 1;
 
-  // Ãmbito distribution
+  // Ámbito distribution
   var ambitoColors = {'Urgencia':'#ef4444','Ambulatorio':'#3b82f6','Atención Cerrada':'#8b5cf6','Transversal':'#10b981'};
   var ambitoSum = {};
   data.forEach(function(r){ if(r.ambito){ if(!ambitoSum[r.ambito]) ambitoSum[r.ambito]=0; ambitoSum[r.ambito]++; } });
@@ -1620,15 +1623,15 @@ function renderFacilContent() {
   // KPI row
   html2 += '<div class="kpi-row">'
     + '<div class="kpi-card"><div class="kv">'+totalReportes+'</div><div class="kl">Reportes guardados</div></div>'
-    + '<div class="kpi-card"><div class="kv">'+totalAcomp+'</div><div class="kl">AcompaÃ±amientos totales</div></div>'
+    + '<div class="kpi-card"><div class="kv">'+totalAcomp+'</div><div class="kl">Acompañamientos totales</div></div>'
     + '<div class="kpi-card"><div class="kv">'+promDia+'</div><div class="kl">Promedio acomp. / día</div></div>'
     + '</div>';
 
-  // Ãmbito + Tipo Actividad row
+  // Ámbito + Tipo Actividad row
   html2 += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">';
 
-  // Ãmbito card
-  html2 += '<div class="card"><div class="card-head"><div class="icon-dot it">&#127919;</div><div><h2>Ãmbito</h2></div></div><div class="card-body" style="padding:14px">';
+  // Ámbito card
+  html2 += '<div class="card"><div class="card-head"><div class="icon-dot it">&#127919;</div><div><h2>Ámbito</h2></div></div><div class="card-body" style="padding:14px">';
   if (Object.keys(ambitoSum).length) {
     html2 += '<div class="ambito-donut">';
     Object.entries(ambitoSum).forEach(function(e){
@@ -1652,8 +1655,8 @@ function renderFacilContent() {
   html2 += '</div></div>';
   html2 += '</div>';
 
-  // Top Ã¡reas
-  html2 += '<div class="card"><div class="card-head"><div class="icon-dot ig">&#127973;</div><div><h2>Top 10 Ãreas - AcompaÃ±amientos</h2></div></div><div class="card-body" style="padding:14px">';
+  // Top áreas
+  html2 += '<div class="card"><div class="card-head"><div class="icon-dot ig">&#127973;</div><div><h2>Top 10 Áreas - Acompañamientos</h2></div></div><div class="card-body" style="padding:14px">';
   if (sortedAreas.length) {
     sortedAreas.forEach(function(e){
       html2 += '<div class="mini-bar"><div class="mb-label">'+e[0]+'</div>'
@@ -1690,7 +1693,7 @@ function renderFacilContent() {
   html2 += '</div>';
 
   // Monthly evolution
-  html2 += '<div class="card"><div class="card-head"><div class="icon-dot ig">&#128197;</div><div><h2>AcompaÃ±amientos por mes</h2></div></div><div class="card-body" style="padding:14px">';
+  html2 += '<div class="card"><div class="card-head"><div class="icon-dot ig">&#128197;</div><div><h2>Acompañamientos por mes</h2></div></div><div class="card-body" style="padding:14px">';
   var mesesConDatos = orden.filter(function(m){ return mesMap[m]; });
   if (mesesConDatos.length) {
     var maxM = Math.max.apply(null, mesesConDatos.map(function(m){ return mesMap[m]; }));
@@ -1718,7 +1721,7 @@ async function dbLoad() {
   if(!loaded) {
     try {
       var r2=await fetch(BACKUP_URL+'/rest/v1/reportes?select=*&or=(eliminado.is.false,eliminado.is.null)&order=fecha.desc',{method:'GET',mode:'cors',headers:{'apikey':BACKUP_KEY,'Authorization':'Bearer '+BACKUP_KEY,'Content-Type':'application/json'}});
-      if(r2.ok) { DB=(await r2.json()).map(dbToRecord); try { localStorage.setItem(STORAGE_KEY,JSON.stringify(DB)); } catch(e) {} updateStatus('backup','ok'); loaded=true; toast('⚠️ Conectado a BD respaldo.','ok'); }
+      if(r2.ok) { DB=(await r2.json()).map(dbToRecord); try { localStorage.setItem(STORAGE_KEY,JSON.stringify(DB)); } catch(e) {} updateStatus('backup','ok'); loaded=true; toast('Conectado a BD respaldo.','ok'); }
     } catch(e2) { updateStatus('backup','error'); }
   }
   if(!loaded) { try { var r3=localStorage.getItem(STORAGE_KEY); DB=r3?JSON.parse(r3):[]; } catch(e3) { DB=[]; } }
@@ -1958,7 +1961,7 @@ function loadIntoForm(r) {
   document.querySelectorAll('.tipo-act-item').forEach(function(a){ a.classList.remove('selected'); });
   (r.tipoActividad||[]).forEach(function(v) {
     if (v==='Capacitación') { var e=document.getElementById('ta-Capacitacion'); if(e){e.classList.add('selected');selectedTipoAct.push(v);} }
-    else if (v==='AcompaÃ±amiento/Apoyo en Terreno') { var e=document.getElementById('ta-Acompanamiento'); if(e){e.classList.add('selected');selectedTipoAct.push(v);} }
+    else if (v==='Acompañamiento/Apoyo en Terreno') { var e=document.getElementById('ta-Acompanamiento'); if(e){e.classList.add('selected');selectedTipoAct.push(v);} }
     else if (v==='Reunión') { var e=document.getElementById('ta-Reunion'); if(e){e.classList.add('selected');selectedTipoAct.push(v);} }
   });
   renderCustomTa();
@@ -2002,7 +2005,7 @@ function loadIntoForm(r) {
   window.scrollTo(0,0);
 }
 async function eliminar(id) {
-  if (!confirm('Â¿Eliminar este reporte de la vista?\n\nEl registro quedarÃ¡ guardado en la base de datos como eliminado y puede ser restaurado por el administrador.')) return;
+  if (!confirm('Â¿Eliminar este reporte de la vista?\n\nEl registro quedará guardado en la base de datos como eliminado y puede ser restaurado por el administrador.')) return;
   try {
     // Soft delete: mark as eliminado=true in Supabase
     var resp = await fetch(SUPABASE_URL + '/rest/v1/reportes?id=eq.' + encodeURIComponent(id), {
@@ -2048,7 +2051,7 @@ function renderHist() {
       + '<span class="hist-who">'+(r.facilitador||'-')+'</span>'
       + '<span class="tag '+(r.facilitador==='Antonio Araya'?'tag-b':r.facilitador==='Evelyn Fierro'?'tag-t':'tag-g')+'" style="font-size:10px">'+(r.mes||'')+'</span>'
       + (r.ambito ? '<span class="tag tag-t" style="font-size:10px">'+ai+' '+r.ambito+'</span>' : '')
-      + (r.customAreaNames&&r.customAreaNames.length ? '<span class="custom-badge">+'+r.customAreaNames.length+' Ã¡rea'+(r.customAreaNames.length>1?'s':'')+'</span>' : '')
+      + (r.customAreaNames&&r.customAreaNames.length ? '<span class="custom-badge">+'+r.customAreaNames.length+' área'+(r.customAreaNames.length>1?'s':'')+'</span>' : '')
       + '<span class="hist-total">'+r.total+' acomp.</span>'
       + '<span class="hist-pre">'+(r.actividades||r.capacitaciones||r.novedades||'Sin detalle')+'</span>'
       + '<div class="hist-act">'
@@ -2064,7 +2067,7 @@ function renderDash() {
   var dias = new Set(DB.map(function(r){ return r.fecha; })).size;
   var meses = new Set(DB.map(function(r){ return r.mes; })).size;
   document.getElementById('stats-row').innerHTML = [
-    [DB.length,'Reportes guardados'],[total,'AcompaÃ±amientos totales'],
+    [DB.length,'Reportes guardados'],[total,'Acompañamientos totales'],
     [dias,'Días registrados'],[meses,'Meses cubiertos']
   ].map(function(v){ return '<div class="stat-card"><div class="sv">'+v[0]+'</div><div class="sl">'+v[1]+'</div></div>'; }).join('');
   var areaSum = {};
@@ -2079,7 +2082,7 @@ function renderDash() {
       + '</div>'
       + '<span style="font-size:13px;font-weight:700;min-width:28px;text-align:right">'+e[1]+'</span>'
       + '</div>';
-  }).join('') : '<p class="na">Sin datos aÃºn.</p>';
+  }).join('') : '<p class="na">Sin datos aún.</p>';
   var mesMap = {};
   DB.forEach(function(r){ var k=r.mes||'?'; if(!mesMap[k]) mesMap[k]={A:0,N:0,E:0};
     if(r.facilitador==='Antonio Araya') mesMap[k].A+=r.total;
@@ -2096,7 +2099,7 @@ function renderDash() {
   });
   document.getElementById('dash-mensual').innerHTML = rows.length
     ? '<table class="atab"><thead><tr><th>Mes</th><th style="text-align:center">Antonio</th><th style="text-align:center">Nayomy</th><th style="text-align:center">Evelyn</th><th style="text-align:center">Total</th></tr></thead><tbody>'+rows.join('')+'</tbody></table>'
-    : '<p class="na">Sin datos aÃºn.</p>';
+    : '<p class="na">Sin datos aún.</p>';
 }
 function buildReportContent(r) {
   var fmt = function(f){ if(!f) return '-'; var p=f.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; };
@@ -2112,24 +2115,24 @@ function buildReportContent(r) {
   var ai = (r.ambito && AMBITOS_ICONS[r.ambito]) ? AMBITOS_ICONS[r.ambito] : '';
   return '<div style="text-align:center;margin-bottom:20px;padding-bottom:16px;border-bottom:2.5px solid #0f2540">'
     + '<div style="font-size:16px;font-weight:800;color:#0f2540;text-transform:uppercase;letter-spacing:.5px">Plataforma de Monitoreo Equipo en Terreno HAH</div>'
-    + '<div style="font-size:12px;color:#64748b;margin-top:5px">Facilitadores Clínicos Â· Gesnova Salud Â· Hospital Alto Hospicio (HAH)</div>'
+    + '<div style="font-size:12px;color:#64748b;margin-top:5px">Facilitadores Clínicos · Gesnova Salud · Hospital Alto Hospicio (HAH)</div>'
     + '</div>'
     + '<div class="report-section"><h3>Identificación</h3><div class="report-grid">'
       + '<div class="rf"><div class="rl">Facilitador</div><div class="rv">'+(r.facilitador||'-')+'</div></div>'
-      + '<div class="rf"><div class="rl">Fecha</div><div class="rv">'+fmt(r.fecha)+' Â· '+(r.dia||'')+' '+(r.mes?'Â· '+r.mes:'')+'</div></div>'
+      + '<div class="rf"><div class="rl">Fecha</div><div class="rv">'+fmt(r.fecha)+' · '+(r.dia||'')+' '+(r.mes?'· '+r.mes:'')+'</div></div>'
       + '<div class="rf"><div class="rl">Turno / Rondas</div><div class="rv">'+(r.rondas||'-')+'</div></div>'
       + (r.tipoActividad&&r.tipoActividad.length ? '<div class="rf"><div class="rl">Tipo de Actividad</div><div class="rv">' + r.tipoActividad.join(', ') + '</div></div>' : '')
-    + (r.ambito ? '<div class="rf"><div class="rl">Ãmbito</div><div class="rv">'+ai+' '+r.ambito+'</div></div>' : '')
-      + '<div class="rf"><div class="rl">Total acompaÃ±amientos</div><div class="rv" style="font-size:22px;font-weight:800;color:#0f2540">'+r.total+'</div></div>'
+    + (r.ambito ? '<div class="rf"><div class="rl">Ámbito</div><div class="rv">'+ai+' '+r.ambito+'</div></div>' : '')
+      + '<div class="rf"><div class="rl">Total acompañamientos</div><div class="rv" style="font-size:22px;font-weight:800;color:#0f2540">'+r.total+'</div></div>'
     + '</div></div>'
-    + '<div class="report-section"><h3>AcompaÃ±amientos por Ãrea</h3>'
-      + (areasRows ? '<table class="atab"><thead><tr><th>Ãrea / Unidad</th><th style="text-align:center">NÂ°</th></tr></thead><tbody>'+areasRows+'<tr class="tot"><td>TOTAL</td><td style="text-align:center">'+r.total+'</td></tr></tbody></table>' : '<span class="na">Sin acompaÃ±amientos registrados</span>')
+    + '<div class="report-section"><h3>Acompañamientos por Área</h3>'
+      + (areasRows ? '<table class="atab"><thead><tr><th>Área / Unidad</th><th style="text-align:center">N°</th></tr></thead><tbody>'+areasRows+'<tr class="tot"><td>TOTAL</td><td style="text-align:center">'+r.total+'</td></tr></tbody></table>' : '<span class="na">Sin acompañamientos registrados</span>')
     + '</div>'
     + (r.tipoApoyo&&r.tipoApoyo.length ? '<div class="report-section"><h3>Tipo de Apoyo</h3><div style="display:flex;flex-wrap:wrap;gap:6px">'+r.tipoApoyo.map(function(t){ return '<span style="background:#cffafe;color:#164e63;font-size:12px;padding:3px 10px;border-radius:8px;font-weight:600">'+t+'</span>'; }).join('')+'</div></div>' : '')
     + (r.asistenciaPor ? '<div class="report-section"><h3>Asistencia Solicitada por</h3><div class="tblock">'+r.asistenciaPor+'</div></div>' : '')
     + '<div class="report-section"><h3>Actividades / Rondas</h3>'+tf(r.actividades)+'</div>'
     + '<div class="report-section"><h3>Capacitaciones realizadas</h3>'+tf(r.capacitaciones)+'</div>'
-    + '<div class="report-section"><h3>Avances tÃ©cnicos / Documentos</h3>'+tf(r.avances)+'</div>'
+    + '<div class="report-section"><h3>Avances técnicos / Documentos</h3>'+tf(r.avances)+'</div>'
     + '<div class="report-section"><h3>Otras actividades / Reuniones</h3>'+tf(r.reuniones)+'</div>'
     + (r.herramientas&&r.herramientas.length ? '<div class="report-section"><h3>Herramientas y Módulos</h3><div style="display:flex;flex-wrap:wrap;gap:6px">' + r.herramientas.map(function(h){ return '<span style="background:#dbeafe;color:#1e40af;font-size:12px;padding:3px 10px;border-radius:8px;font-weight:600">'+h+'</span>'; }).join('') + '</div></div>' : '')
     + (r.profesionales&&r.profesionales.length ? '<div class="report-section"><h3>Tipos de Profesionales</h3><div style="display:flex;flex-wrap:wrap;gap:6px">' + r.profesionales.map(function(p){ return '<span style="background:#e0f2fe;color:#0369a1;font-size:12px;padding:3px 10px;border-radius:8px;font-weight:600">'+p+'</span>'; }).join('') + '</div></div>' : '')
@@ -2171,7 +2174,7 @@ function buildReportContent(r) {
     })()
     + '<div style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between">'
       + '<span style="font-size:11px;color:#9ca3af">Generado: '+new Date().toLocaleString('es-CL')+'</span>'
-      + '<span style="font-size:11px;color:#9ca3af">HAH Â· Gesnova Salud</span>'
+      + '<span style="font-size:11px;color:#9ca3af">HAH · Gesnova Salud</span>'
     + '</div>';
 }
 function openPreview() {
@@ -2181,7 +2184,7 @@ function openPreview() {
 }
 function openPreviewReg(id) {
   var r = DB.find(function(x){ return x.id===id; }); if(!r) return;
-  document.getElementById('modal-title').textContent = 'Reporte - '+(r.facilitador||'')+' Â· '+(r.fecha?r.fecha.split('-').reverse().join('/'):'');
+  document.getElementById('modal-title').textContent = 'Reporte - '+(r.facilitador||'')+' · '+(r.fecha?r.fecha.split('-').reverse().join('/'):'');
   document.getElementById('modal-body').innerHTML = buildReportContent(r);
   document.getElementById('modal-wrap').classList.add('open');
 }
@@ -2241,7 +2244,7 @@ function exportarExcel() {
     + '<Styles><Style ss:ID="hdr"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#0F2540" ss:Pattern="Solid"/></Style></Styles>'
     + '<Worksheet ss:Name="Consolidado"><Table>'
     + '<Row ss:StyleID="hdr">'
-    + ['NÂ°','Facilitador','Fecha','Día','Mes','Rondas','Ãmbito'].concat(AREAS_BASE).concat(['NÂ° Total Acomp.','Actividades / Rondas','Capacitaciones','Avances TÃ©cnicos','Reuniones','Novedades'])
+    + ['N°','Facilitador','Fecha','Día','Mes','Rondas','Ámbito'].concat(AREAS_BASE).concat(['N° Total Acomp.','Actividades / Rondas','Capacitaciones','Avances Técnicos','Reuniones','Novedades'])
         .map(function(h){ return '<Cell><Data ss:Type="String">'+esc(h)+'</Data></Cell>'; }).join('') + '</Row>'
     + list.map(function(r,i){
         return '<Row>'
@@ -2257,37 +2260,37 @@ function exportarExcel() {
     + '<Styles><Style ss:ID="hdr"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#0F2540" ss:Pattern="Solid"/></Style></Styles>'
     + '<Worksheet ss:Name="Consolidado"><Table>'
     + '<Row ss:StyleID="hdr">'
-    + '<Cell><Data ss:Type="String">NÂ°</Data></Cell>'
+    + '<Cell><Data ss:Type="String">N°</Data></Cell>'
     + '<Cell><Data ss:Type="String">Facilitador</Data></Cell>'
     + '<Cell><Data ss:Type="String">Fecha</Data></Cell>'
     + '<Cell><Data ss:Type="String">Día</Data></Cell>'
     + '<Cell><Data ss:Type="String">Mes</Data></Cell>'
     + '<Cell><Data ss:Type="String">Rondas</Data></Cell>'
     + '<Cell><Data ss:Type="String">Tipo de Actividad</Data></Cell>'
-    + '<Cell><Data ss:Type="String">Ãmbito</Data></Cell>'
+    + '<Cell><Data ss:Type="String">Ámbito</Data></Cell>'
     + (function(){
         var allA = new Set(AREAS_BASE);
         list.forEach(function(r2){ (r2.customAreaNames||[]).forEach(function(a){ allA.add(a); }); });
         window._excelAreas = Array.from(allA);
         return window._excelAreas.map(function(a){ return '<Cell><Data ss:Type="String">'+esc(a)+'</Data></Cell>'; }).join('');
       })()
-    + '<Cell><Data ss:Type="String">Ãreas Personalizadas</Data></Cell>'
-    + '<Cell><Data ss:Type="String">NÂ° Total Acomp.</Data></Cell>'
+    + '<Cell><Data ss:Type="String">Áreas Personalizadas</Data></Cell>'
+    + '<Cell><Data ss:Type="String">N° Total Acomp.</Data></Cell>'
     + '<Cell><Data ss:Type="String">Actividades / Rondas</Data></Cell>'
     + '<Cell><Data ss:Type="String">Capacitaciones</Data></Cell>'
-    + '<Cell><Data ss:Type="String">Avances TÃ©cnicos</Data></Cell>'
+    + '<Cell><Data ss:Type="String">Avances Técnicos</Data></Cell>'
     + '<Cell><Data ss:Type="String">Reuniones</Data></Cell>'
     + '<Cell><Data ss:Type="String">Herramientas y Módulos</Data></Cell>'
-    + '<Cell><Data ss:Type="String">Profesionales AcompaÃ±ados</Data></Cell>'
+    + '<Cell><Data ss:Type="String">Profesionales Acompañados</Data></Cell>'
     + '<Cell><Data ss:Type="String">Novedades</Data></Cell>'
     + '<Cell><Data ss:Type="String">Consulta Resuelta</Data></Cell>'
     + '<Cell><Data ss:Type="String">Motivo No Resuelta</Data></Cell>'
     + '<Cell><Data ss:Type="String">Derivado a Líder Funcional</Data></Cell>'
     + '<Cell><Data ss:Type="String">Líder Funcional</Data></Cell>'
     + '<Cell><Data ss:Type="String">Ticket Cliente (S/N)</Data></Cell>'
-    + '<Cell><Data ss:Type="String">NÂ° Ticket Cliente</Data></Cell>'
+    + '<Cell><Data ss:Type="String">N° Ticket Cliente</Data></Cell>'
     + '<Cell><Data ss:Type="String">Ticket GesNova (S/N)</Data></Cell>'
-    + '<Cell><Data ss:Type="String">NÂ° Ticket GesNova</Data></Cell>'
+    + '<Cell><Data ss:Type="String">N° Ticket GesNova</Data></Cell>'
     + '</Row>'
     + list.map(function(r,i){
         return '<Row>'
@@ -2347,7 +2350,7 @@ function exportarPDF() {
     + '.na{color:#9ca3af;font-style:italic;font-size:12px}@media print{-webkit-print-color-adjust:exact;print-color-adjust:exact;body{padding:15px}}'
     + '</style></head>'
     + '<body><h1 style="text-align:center;font-size:18px;color:#0f2540;margin-bottom:6px">Consolidado de Actividades Diarias</h1>'
-    + '<p style="text-align:center;font-size:12px;color:#64748b;margin-bottom:30px">Gesnova Salud Â· HAH Â· '+list.length+' registros Â· '+new Date().toLocaleDateString('es-CL')+'</p>'
+    + '<p style="text-align:center;font-size:12px;color:#64748b;margin-bottom:30px">Gesnova Salud · HAH · '+list.length+' registros · '+new Date().toLocaleDateString('es-CL')+'</p>'
     + pages + '</body></html>';
   var ff3 = document.getElementById('f-facilitador').value;
   var fechaHoy2 = new Date().toISOString().slice(0,10).replace(/-/g,'');
@@ -2358,7 +2361,7 @@ function exportarPDF() {
   w.document.write(html2);
   w.document.close();
   setTimeout(function(){ w.focus(); w.print(); }, 600);
-  toast('✅ Abriendo diÃ¡logo de impresión PDF','ok');
+  toast('✅ Abriendo diálogo de impresión PDF','ok');
 }
 
 function dlBlob(content, type, filename) {
