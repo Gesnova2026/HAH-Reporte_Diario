@@ -411,6 +411,9 @@ html { font-size: 14px; }
         <div class="tipo-act-item" onclick="toggleTipoAct(this,'Reuni&#243;n')" id="ta-Reunion">
           <div class="ta-icon">&#128101;</div><span class="ta-label">Reuni&#243;n</span>
         </div>
+        <div class="tipo-act-item" onclick="toggleTipoAct(this,'Elaboración Material de Apoyo')" id="ta-Elaboracion">
+          <div class="ta-icon">&#128196;</div><span class="ta-label">Elaboración Material de Apoyo</span>
+        </div>
       </div>
       <div id="ta-custom-list" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"></div>
       <div class="add-otro-box" id="add-ta-btn" onclick="showAddTaForm()" style="margin-top:10px">
@@ -1231,7 +1234,7 @@ function cancelAddTa() {
 function confirmAddTa() {
   var name = document.getElementById('new-ta-name').value.trim();
   if (!name) { toast('Escribe el nombre de la actividad','er'); return; }
-  var all = ['Capacitación','Acompañamiento/Apoyo en Terreno','Reunión'].concat(customTipoAct).map(function(a){ return a.toLowerCase(); });
+  var all = ['Capacitación','Acompañamiento/Apoyo en Terreno','Reunión','Elaboración Material de Apoyo'].concat(customTipoAct).map(function(a){ return a.toLowerCase(); });
   if (all.indexOf(name.toLowerCase()) >= 0) { toast('Esa actividad ya existe','er'); return; }
   customTipoAct.push(name);
   renderCustomTa();
